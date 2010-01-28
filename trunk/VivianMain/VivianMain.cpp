@@ -10,12 +10,19 @@
 HINSTANCE hInst;								// 当前实例
 TCHAR szTitle[MAX_LOADSTRING];					// 标题栏文本
 TCHAR szWindowClass[MAX_LOADSTRING];			// 主窗口类名
+IDirect3D9 * g_pD3D;
+IDirect3DDevice9 * g_pd3dDevice;
 
 // 此代码模块中包含的函数的前向声明:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
+VOID				Render();
+
+
+
+
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -42,6 +49,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_VIVIANMAIN));
 
+
+
+	/*
 	// 主消息循环:
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
@@ -51,7 +61,18 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 			DispatchMessage(&msg);
 		}
 	}
-
+	*/
+	::ZeroMemory ( &msg, sizeof(msg) );
+	while( msg.message != WM_QUIT )
+	{
+		if( ::PeekMessage ( &msg, NULL, 0, 0, PM_REMOVE ) )
+		{
+			::TranslateMessage ( &msg );
+			::DispatchMessage ( &msg );
+		}else{
+			Render();
+		}
+	}
 	return (int) msg.wParam;
 }
 
@@ -84,7 +105,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_VIVIANMAIN));
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_VIVIANMAIN);
+	wcex.lpszMenuName	= NULL;//MAKEINTRESOURCE(IDC_VIVIANMAIN);
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -163,6 +184,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	case WM_CREATE:
+		//D3D初始化:
+		if( NULL == (g_pD3D = ::Direct3DCreate9 ( D3D_SDK_VERSION ) ) )
+		{
+			::MessageBox (hWnd,_T("Direct 3D 初始化失败！\n\rerr:001"),_T(""),MB_OK);
+			return E_FAIL;
+		}
+
+		D3DPRESENT_PARAMETERS d3dpp;
+		ZeroMemory( &d3dpp, sizeof(d3dpp) );
+		d3dpp.Windowed =TRUE;
+		d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+		d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+
+		if( FAILED( g_pD3D->CreateDevice (
+				D3DADAPTER_DEFAULT,
+				D3DDEVTYPE_HAL,
+				hWnd,
+				D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+				&d3dpp,
+				&g_pd3dDevice ) ) )
+		{
+			::MessageBox (hWnd,_T("Direct 3D 初始化失败！\n\rerr:002"),_T(""),MB_OK);
+			return E_FAIL;
+		}
+
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -187,4 +234,21 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return (INT_PTR)FALSE;
+}
+
+
+VOID Render()
+{
+	if(NULL==g_pd3dDevice)
+		return;
+	
+	g_pd3dDevice->Clear(0,NULL,D3DCLEAR_TARGET,D3DCOLOR_XRGB(128,0,255),1.0f,0);
+
+	if(SUCCEEDED(g_pd3dDevice->BeginScene ()))
+	{
+		g_pd3dDevice->EndScene();
+	}
+	g_pd3dDevice->Present (NULL,NULL,NULL,NULL);
+
+
 }

@@ -19,3 +19,8 @@
 
 
 // TODO: 在此处引用程序需要的其他头文件
+
+#include <d3d9.h>
+
+#pragma comment(lib,"d3d9.lib")
+
