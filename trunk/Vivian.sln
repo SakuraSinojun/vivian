@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VivianMain", "VivianMain\VivianMain.vcproj", "{CC9ABE53-6140-479E-B6C7-70AA07C76935}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VivianToolset", "VivianToolset\VivianToolset.vcproj", "{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{CC9ABE53-6140-479E-B6C7-70AA07C76935}.Debug|Win32.Build.0 = Debug|Win32
 		{CC9ABE53-6140-479E-B6C7-70AA07C76935}.Release|Win32.ActiveCfg = Release|Win32
 		{CC9ABE53-6140-479E-B6C7-70AA07C76935}.Release|Win32.Build.0 = Release|Win32
+		{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}.Debug|Win32.Build.0 = Debug|Win32
+		{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}.Release|Win32.ActiveCfg = Release|Win32
+		{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
