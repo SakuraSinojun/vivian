@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VivianMain", "VivianMain\Vi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VivianToolset", "VivianToolset\VivianToolset.vcproj", "{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolset", "Toolset\Toolset.vcproj", "{D800A4BB-E814-4993-841B-EE1E2BB8AC8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}.Debug|Win32.Build.0 = Debug|Win32
 		{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}.Release|Win32.ActiveCfg = Release|Win32
 		{BB0EC7B8-099D-45A8-AF06-1F19CE2471DA}.Release|Win32.Build.0 = Release|Win32
+		{D800A4BB-E814-4993-841B-EE1E2BB8AC8D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D800A4BB-E814-4993-841B-EE1E2BB8AC8D}.Debug|Win32.Build.0 = Debug|Win32
+		{D800A4BB-E814-4993-841B-EE1E2BB8AC8D}.Release|Win32.ActiveCfg = Release|Win32
+		{D800A4BB-E814-4993-841B-EE1E2BB8AC8D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
