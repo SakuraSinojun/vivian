@@ -1,0 +1,42 @@
+
+
+LB = winmm.lib gdi32.lib user32.lib kernel32.lib
+
+
+OBJECT = hookbot.obj window.obj message.obj analyser.obj
+HEADER = src\def.h src\window.h src\message.h src\analyser.h
+CCMDLINE = /nologo /W3 /MT /O2 /D "_MSVC" /c /EHsc
+
+
+target: hookbot.exe dice.dll clean
+
+hookbot.exe: $(OBJECT)
+	link /nologo temp\hookbot.obj temp\window.obj temp\message.obj temp\analyser.obj $(LB) /SUBSYSTEM:CONSOLE /OUT:release\hookbot.exe
+
+hookbot.obj: src\hookbot.cpp $(HEADER)
+	cl $(CCMDLINE) src\$*.cpp /Fo"temp\$*.obj"
+window.obj: src\window.cpp $(HEADER)
+	cl $(CCMDLINE) src\$*.cpp /Fo"temp\$*.obj"
+message.obj: src\message.cpp $(HEADER)
+	cl $(CCMDLINE) src\$*.cpp /Fo"temp\$*.obj"
+analyser.obj: src\analyser.cpp  $(HEADER)
+	cl $(CCMDLINE) src\$*.cpp /Fo"temp\$*.obj"
+
+
+dice.dll: dice.obj eval_r.obj parse.obj
+	link /nologo temp\dice.obj temp\eval_r.obj temp\parse.obj $(LB) /DLL /OUT:release\plugin\dice.dll
+dice.obj: plugin\dice\dice.cpp
+	cl $(CCMDLINE) plugin\dice\$*.cpp /Fo"temp\$*.obj"
+eval_r.obj: plugin\dice\eval_r.cpp plugin\dice\eval_r.h
+	cl $(CCMDLINE) plugin\dice\$*.cpp /Fo"temp\$*.obj"
+parse.obj: plugin\dice\parse.cpp plugin\dice\parse.h
+	cl $(CCMDLINE) plugin\dice\$*.cpp /Fo"temp\$*.obj"
+
+
+
+
+clean:
+	del temp\*.obj /Q
+
+
+
