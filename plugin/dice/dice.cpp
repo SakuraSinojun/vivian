@@ -76,9 +76,14 @@ char * ExecuteCommand(const char * command)
 		return "Invalid Expression.";
 	}
 	
-	i = findstr (p, " ");
+	
+	i = findstr (p, "\r");
 	j = findstr (p, "\n");
 	
+	if (j>i) j=i;
+	
+	
+	i = findstr (p, " ");
 	if (i==-1) i=j;
 	
 	if (i>j && j!=-1) i=j;
@@ -90,13 +95,13 @@ char * ExecuteCommand(const char * command)
 	
 	temp = p + i;
 	
-	while (*temp == '\n' || *temp == ' ')
+	while (*temp == '\n' || *temp == ' ' || *temp == '\r' || *temp =='\t')
 	{
 		temp ++;
 	}
 	
-	cmd = new char [i+1];
-	memset (cmd, 0, i+1);
+	cmd = new char [i+2];
+	memset (cmd, 0, i+2);
 	memcpy (cmd, p, i);
 	
 	//printf ("p=%s, cmd=%s\n",p,cmd);
