@@ -85,6 +85,7 @@ bool parsemessage ( const char * message)
 			{
 				continue;
 			}
+			memset (&msg, 0, sizeof(msg));
 			memcpy (msg.Sender, p+j+1, i-j-2);
 			memcpy (msg.Time, p+i, 8);
 			
