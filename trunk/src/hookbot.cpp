@@ -227,7 +227,7 @@ void OnTimer(UINT nEventID)
 			if ((temp=analyse(vMsg[lastUnpokeMsg].message))!=NULL)
 			{
 				message = new char [strlen(temp) + 100];
-				wsprintf(message, "[[%s(%s)]]\n%s", vMsg[lastUnpokeMsg].Sender, vMsg[lastUnpokeMsg].Time, temp);
+				wsprintf(message, "---------高科技算命，童叟无欺---------\r\n\r\n[[%s(%s)]]\n%s", vMsg[lastUnpokeMsg].Sender, vMsg[lastUnpokeMsg].Time, temp);
 				//发送。
 				::SendMessage (g_qqwnd.hInput, EM_SETSEL, 0, -1);
 				::SendMessage (g_qqwnd.hInput, EM_REPLACESEL, 1, (LPARAM)message);

@@ -134,7 +134,7 @@ char * ExecuteCommand(const char * command)
 				result = NULL;
 			}
 			result = new char [strlen(p) + 100];
-			wsprintf (result, "进行\"%s\"检定，检定结果：\n%s=%s=%d", temp, cmd, p, int(f));
+			wsprintf (result, "进行\"%s\"算命，算命结果：\n%s=%s=%d", temp, cmd, p, int(f));
 			delete cmd;
 			return result;
 		}
