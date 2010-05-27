@@ -270,50 +270,6 @@ LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam,LPARAM lParam)
 /*
 DWORD WINAPI _threadProc(LPVOID lpParameter)
 {
-	int				l;
-	char	*		temp;
-	int 			i;
-	wchar_t * 		test;
-	
-	while (true)
-	{	
-		//这地方必须是Unicode编码才能读出来。
-		l = SendMessageW (g_qqwnd.hChat, WM_GETTEXTLENGTH, 0, 0);
-		test = new wchar_t [l+2];
-		memset (test, 0, 2*(l+2));
-		SendMessageW (g_qqwnd.hChat, WM_GETTEXT, l, (LPARAM)test);
-		l = WideCharToMultiByte (CP_ACP, 0, test, -1, NULL, 0, 0, 0);
-		temp = new char [l+10];
-		memset (temp, 0, l+10);
-		WideCharToMultiByte (CP_ACP, 0, test, -1, temp, l, 0, 0);
-
-		delete test;
-		
-		parsemessage (temp);
-		
-		delete temp;
-		
-		while (lastUnpokeMsg < vMsg.size())
-		{
-			printf ("%s %s %s\n", vMsg[lastUnpokeMsg].Time, vMsg[lastUnpokeMsg].Sender, vMsg[lastUnpokeMsg].message);
-			
-			if ((temp=analyse(vMsg[lastUnpokeMsg].message))!=NULL)
-			{
-				//发送。
-				::SendMessage (g_qqwnd.hInput, EM_SETSEL, 0, -1);
-				::SendMessage (g_qqwnd.hInput, EM_REPLACESEL, 1, (LPARAM)temp);
-
-				///::Sleep(100);
-				::SendMessage (g_qqwnd.hSend, WM_LBUTTONDOWN, 0, 0);
-				::SendMessage (g_qqwnd.hSend, WM_LBUTTONUP, 0, 0);
-				
-			}
-			
-			lastUnpokeMsg++;
-		}
-		Sleep(1000);
-	}
-	
 	return 0;
 }
 
