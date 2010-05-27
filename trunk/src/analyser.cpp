@@ -9,7 +9,7 @@
 typedef char * (WINAPI *LPFNGETINFO)();
 typedef char * (WINAPI *LPFNGETCOMMAND)();
 typedef char * (WINAPI *LPFNEXECUTECOMMAND)(const char *);
-typedef void   (WINAPI *LPFNCONFIG)();
+//typedef void   (WINAPI *LPFNCONFIG)();
 typedef char * (WINAPI *LPFNGETUSAGE)();
 
 
@@ -20,7 +20,7 @@ struct PLUGIN
 	LPFNGETINFO 		lpfnGetInfo;
 	LPFNGETCOMMAND 		lpfnGetCommand;
 	LPFNEXECUTECOMMAND	lpfnExecuteCommand;
-	LPFNCONFIG 			lpfnConfig;
+	//LPFNCONFIG 			lpfnConfig;
 	LPFNGETUSAGE 		lpfnGetUsage;
 };
 
@@ -71,6 +71,8 @@ void LoadPlugin (const char * path, const char * dllname)
 	}else{
 		printf ("[Failed]\n");
 	}
+	
+	/*
 	printf ("\tLoading Config()...                            ");	
 	plug.lpfnConfig 		= (LPFNCONFIG)GetProcAddress (plug.hInstance, "Config");
 	if (plug.lpfnGetInfo != NULL)
@@ -79,6 +81,9 @@ void LoadPlugin (const char * path, const char * dllname)
 	}else{
 		printf ("[Failed]\n");
 	}
+	*/
+	
+	
 	printf ("\tLoading GetUsage()...                          ");	
 	plug.lpfnGetUsage 		= (LPFNGETUSAGE)GetProcAddress (plug.hInstance, "GetUsage");
 	if (plug.lpfnGetInfo != NULL)
@@ -256,6 +261,8 @@ char * GetBash()
 	for (int i =0; i<vp.size(); i++)
 	{
 		strcat (temp, vp[i].dllname);
+		strcat (temp, "\t");
+		strcat (temp, vp[i].lpfnGetInfo());
 		strcat (temp, "\t\"");
 		strcat (temp, vp[i].lpfnGetCommand());
 		strcat (temp, "\"\n\t");

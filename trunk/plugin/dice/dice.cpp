@@ -7,8 +7,11 @@
 #include <stdio.h>
 
 
+int diceface;
+
 char * GetInfo()
 {
+	diceface = 20;
 	return "骰点插件";
 }
 
@@ -53,19 +56,26 @@ char * ExecuteCommand(const char * command)
 	char * temp;
 	char * cmd;
 	float f;
-	
+	char arg;
 	static char * result = NULL;
 	
 	
 	i = findstr (command, ".r");
 	
 	p = (char *)command + i + 2;
+
+	
+	arg = *p;
+	
+	if (arg != ' ')
+	{
+		p ++;
+	}
 	
 	if (*p != ' ')
 	{
 		return NULL;
 	}
-	
 	while (*p == ' ' || *p == '\n' || *p == '\r')
 	{
 		p++;
@@ -73,76 +83,104 @@ char * ExecuteCommand(const char * command)
 	
 	if (*p == '\0')
 	{
-		return "Invalid Expression.";
+		return "Invalid Expression.\nDice Usage:   \".r expression [dice-information]\"";
 	}
 	
-	
-	i = findstr (p, "\r");
-	j = findstr (p, "\n");
-	
-	if (j>i) j=i;
-	
-	
-	i = findstr (p, " ");
-	if (i==-1) i=j;
-	
-	if (i>j && j!=-1) i=j;
-	
-	if (i==-1)
+	switch (arg)
 	{
-		i=strlen(p);
-	}
-	
-	temp = p + i;
-	
-	while (*temp == '\n' || *temp == ' ' || *temp == '\r' || *temp =='\t')
-	{
-		temp ++;
-	}
-	
-	cmd = new char [i+2];
-	memset (cmd, 0, i+2);
-	memcpy (cmd, p, i);
-	
-	//printf ("p=%s, cmd=%s\n",p,cmd);
-	
-	
-	p = parse(cmd);
-	
-	
-	if (p == NULL)
-	{
-		delete cmd;
-		return "Invalid Expression...";
-	}else{
-		if (!eval_r(p, &f))
-		{
+		case ' ':
+		case 'f':	
+			i = findstr (p, "\r");
+			j = findstr (p, "\n");
+			if (j>i) j=i;
+			i = findstr (p, " ");
+			if (i==-1) i=j;
+			if (i>j && j!=-1) i=j;
+			if (i==-1)
+			{
+				i=strlen(p);
+			}
+			temp = p + i;
+			while (*temp == '\n' || *temp == ' ' || *temp == '\r' || *temp =='\t')
+			{
+				temp ++;
+			}
+			
+			cmd = new char [i+2];
+			memset (cmd, 0, i+2);
+			memcpy (cmd, p, i);
+					
+			p = parse(cmd, diceface);
+					
+			if (p == NULL)
+			{
+				delete cmd;
+				return "Invalid Expression...";
+			}else{
+				if (!eval_r(p, &f))
+				{
+					if (result != NULL)
+					{
+						delete result;
+						result = NULL;
+					}
+					result = new char [strlen(p) + 100];
+					strcpy (result, "Cannot calculate the the expression: ");
+					strcat (result, p);
+					delete cmd;
+					return result;
+				}else{
+					if (result != NULL)
+					{
+						delete result;
+						result = NULL;
+					}
+					result = new char [strlen(p) + 100];
+					if (arg == ' ')
+					{
+						wsprintf (result, "进行\"%s\"算命，算命结果：\n%s=%s=%d", temp, cmd, p, int(f));
+					}else{
+						sprintf (result, "进行\"%s\"算命，算命结果：\n%s=%s=%f", temp, cmd, p, f);
+					}
+					delete cmd;
+					return result;
+				}
+			}
+			delete cmd;
+			return NULL;
+			
+			break;
+		case 'b':
+			i = roll(2) - 1;
 			if (result != NULL)
 			{
 				delete result;
 				result = NULL;
 			}
 			result = new char [strlen(p) + 100];
-			strcpy (result, "Cannot calculate the the expression: ");
-			strcat (result, p);
-			delete cmd;
+			wsprintf (result, "回答%s问题：%s", p, ((i==1) ? "当然" : "不"));
 			return result;
-		}else{
+			break;
+		case 'c':
+			i = str2int(p);
+			if (i<=0 || i>10000)
+			{	
+				return "Invalid Config Arguments. diceface must be the range [1,10000].";
+			}
+			diceface = i;
 			if (result != NULL)
 			{
 				delete result;
 				result = NULL;
 			}
-			result = new char [strlen(p) + 100];
-			wsprintf (result, "进行\"%s\"算命，算命结果：\n%s=%s=%d", temp, cmd, p, int(f));
-			delete cmd;
+			result = new char [100];
+			wsprintf (result, "骰子默认面数设为：%d", i);
 			return result;
-		}
+			break;
+		default:
+			return GetUsage();
+			break;
 	}
-	
-	delete cmd;
-	return NULL;
-	
 }
 
 void Config()
