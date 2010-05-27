@@ -158,7 +158,7 @@ char * ExecuteCommand(const char * command)
 				result = NULL;
 			}
 			result = new char [strlen(p) + 100];
-			wsprintf (result, "回答%s问题：%s", p, ((i==1) ? "当然" : "不"));
+			wsprintf (result, "回答「%s」问题：%s", p, ((i==1) ? "当然" : "不"));
 			return result;
 			break;
 		case 'c':
@@ -190,7 +190,7 @@ void Config()
 
 char * GetUsage()
 {
-	char * usage = "Dice Usage:\n   .r expression [dice-information]";
+	char * usage = "Dice Usage:\n   \".r expression [dice-information]\"";
 	return usage;
 	
 }
