@@ -7,7 +7,7 @@ OBJECT = hookbot.o window.o message.o analyser.o
 HEADER = src\def.h src\window.h src\message.h src\analyser.h
 
 
-target: hookbot.exe dice.dll clean
+target: hookbot.exe dice.dll sign.dll clean
 
 hookbot.exe: $(OBJECT)
 	g++ temp\hookbot.o temp\window.o temp\message.o temp\analyser.o $(LB) -o release\hookbot.exe
@@ -31,6 +31,11 @@ eval_r.o: plugin\dice\eval_r.cpp plugin\dice\eval_r.h
 parse.o: plugin\dice\parse.cpp plugin\dice\parse.h
 	g++ -O3 -c plugin\dice\$*.cpp -o temp\$*.o
 
+
+sign.dll: sign.o 
+	g++ temp\sign.o -Wall -shared -o release\plugin\sign.dll
+sign.o: plugin\sign\sign.cpp
+	g++ -O3 -c plugin\sign\$*.cpp -o temp\$*.o
 
 
 

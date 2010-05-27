@@ -214,8 +214,9 @@ bool match(const char * message, const char * filter)
 	{
 		memset (temp, 0, strlen(filter)+2);
 		memcpy (temp, message+i, strlen(filter));
-		if (strcmp(temp, filter)==0 && (*(message+i-1) != '\"' || i==0))
+		if (strcmp(temp, filter)==0 && ((i==0)?true:(*(message+i-1) != '\"' && *(message+i-1)!='\t' )) )
 		{
+			printf ("匹配%s与%s成功，其前字符为\n%c(%d)\n", temp, filter, *(message+i-1), *(message+i-1));
 			delete temp;
 			return true;
 		}
