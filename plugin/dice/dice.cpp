@@ -48,6 +48,99 @@ int findstr (const char * str1, const char * str2, int nStart =0)
 	return -1;
 }
 
+char * joke(const char *p)
+{
+
+#define MC(x) (findstr(p, x)>=0)
+
+	////////////////////////////////////////
+	//			关于队长
+	////////////////////////////////////////
+	if ( findstr(p, "队长") >=0 )
+	{
+		if ( MC("风流") )
+		{
+			return "\n请注意：队长必须风流！";
+		}
+		if ( MC("威武") )
+		{
+			return "\n请注意：队长必须威武！";
+		}
+		if ( MC("荡漾") )
+		{
+			return "\n请注意：队长必须荡漾！";
+		}
+	}
+
+	////////////////////////////////////////
+	//			关于其它
+	////////////////////////////////////////
+	if ( MC("人呢") )
+	{
+		return "\n /wsn 我哪知道呀……";
+	}
+	
+	if ( findstr(p, "你爸") >=0 )
+	{
+		if ( MC("打你") || MC("打人") )
+		{
+			return "\n /baiy 不一定。";
+		}
+		
+		return "\n 我/bz…… 我怕他打我。";
+	}
+	
+	if ( MC("胖子") )
+	{
+		if ( MC("起床") || MC("醒") || MC("睡") )
+		{
+			return "\n 还没醒。";
+		}
+		if ( MC("胖子呢") || MC("去哪了") || MC("在哪") )
+		{
+			return "\n /wsn 我哪知道呀……";
+		}
+	}
+	
+	if ( findstr(p, "你") >= 0)
+	{
+		if ( MC("叫什么名") || MC("叫什么") || MC("以后就叫") || MC("名字") )
+		{
+			return "\n 我叫「占占」。";
+		}
+		if ( MC("喜欢我") )
+		{
+			return "\n 喜欢。";
+		}
+		if ( MC("爱我") )
+		{
+			return "\n 爱死你了。";
+		}
+		if ( MC("说话") )
+		{
+			return "\n 啊……";
+		}
+		if ( MC("英语") || MC("english") || MC("English") )
+		{
+			return "\n I don't speak English..";
+		}
+		return NULL;
+	}
+	
+	if ( MC("喜欢还是爱") )
+	{
+		return "\n /wsn 有什么区别么？";
+	}
+	
+	
+	
+	
+	return NULL;
+	
+#undef MC
+
+}
+
 char * ExecuteCommand(const char * command)
 {
 	
@@ -84,6 +177,11 @@ char * ExecuteCommand(const char * command)
 	if (*p == '\0')
 	{
 		return "Invalid Expression.\nDice Usage:   \".r expression [dice-information]\"";
+	}
+	
+	if (joke(p)!=NULL)
+	{
+		return joke(p);
 	}
 	
 	switch (arg)
@@ -138,7 +236,7 @@ char * ExecuteCommand(const char * command)
 					result = new char [strlen(p) + 100];
 					if (arg == ' ')
 					{
-						wsprintf (result, "进行\"%s\"算命，算命结果：\n%s=%s=%d", temp, cmd, p, int(f));
+						sprintf (result, "进行\"%s\"算命，算命结果：\n%s=%s=%d", temp, cmd, p, int(f));
 					}else{
 						sprintf (result, "进行\"%s\"算命，算命结果：\n%s=%s=%f", temp, cmd, p, f);
 					}
@@ -150,7 +248,7 @@ char * ExecuteCommand(const char * command)
 			return NULL;
 			
 			break;
-		case 'b':
+		case 'b':			
 			i = roll(2) - 1;
 			if (result != NULL)
 			{
@@ -158,7 +256,7 @@ char * ExecuteCommand(const char * command)
 				result = NULL;
 			}
 			result = new char [strlen(p) + 100];
-			wsprintf (result, "回答「%s」问题：%s", p, ((i==1) ? "当然" : "不"));
+			wsprintf (result, "回答问题：「%s」，答案：%s", p, ((i==1) ? "当然！" : "谁说的？"));
 			return result;
 			break;
 		case 'c':
@@ -174,7 +272,7 @@ char * ExecuteCommand(const char * command)
 				result = NULL;
 			}
 			result = new char [100];
-			wsprintf (result, "骰子默认面数设为：%d", i);
+			wsprintf (result, "默认骰子面数设置为：%d", i);
 			return result;
 			break;
 		default:
