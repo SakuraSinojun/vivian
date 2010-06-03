@@ -6,11 +6,11 @@
 #include <windows.h>
 #include <vector>
 
-typedef char * (WINAPI *LPFNGETINFO)();
-typedef char * (WINAPI *LPFNGETCOMMAND)();
-typedef char * (WINAPI *LPFNEXECUTECOMMAND)(const char *);
-//typedef void   (WINAPI *LPFNCONFIG)();
-typedef char * (WINAPI *LPFNGETUSAGE)();
+typedef char * (*LPFNGETINFO)();
+typedef char * (*LPFNGETCOMMAND)();
+typedef char * (*LPFNEXECUTECOMMAND)(const char *);
+//typedef void   (*LPFNCONFIG)();
+typedef char * (*LPFNGETUSAGE)();
 
 
 struct PLUGIN

@@ -77,17 +77,13 @@ char * joke(const char *p)
 	////////////////////////////////////////
 	if ( MC("人呢") )
 	{
-		return "\n /wsn 我哪知道呀……";
+		return "\n /wn 我哪知道呀……";
 	}
 	
-	if ( findstr(p, "你爸") >=0 )
+	if ( MC("爸") || MC("爹") || MC("父亲") || MC("daddy") || MC("Daddy") ||
+		 MC("DADDY") || MC("father") || MC("Father") || MC("FATHER") )
 	{
-		if ( MC("打你") || MC("打人") )
-		{
-			return "\n /baiy 不一定。";
-		}
-		
-		return "\n 我/bz…… 我怕他打我。";
+		return "\n wn 墙了。";
 	}
 	
 	if ( MC("胖子") )
@@ -98,8 +94,13 @@ char * joke(const char *p)
 		}
 		if ( MC("胖子呢") || MC("去哪了") || MC("在哪") )
 		{
-			return "\n /wsn 我哪知道呀……";
+			return "\n /wn 我哪知道呀……";
 		}
+		if ( MC("打你") || MC("打人") )
+		{
+			return "\n /baiy 不一定。";
+		}
+		
 	}
 	
 	if ( findstr(p, "你") >= 0)
@@ -132,8 +133,7 @@ char * joke(const char *p)
 		return "\n /wsn 有什么区别么？";
 	}
 	
-	
-	
+
 	
 	return NULL;
 	
@@ -256,7 +256,7 @@ char * ExecuteCommand(const char * command)
 				result = NULL;
 			}
 			result = new char [strlen(p) + 100];
-			wsprintf (result, "回答问题：「%s」，答案：%s", p, ((i==1) ? "当然！" : "谁说的？"));
+			wsprintf (result, "回答问题：「%s」，答案：%s", p, ((i==1) ? "嗯！" : "不。"));
 			return result;
 			break;
 		case 'c':

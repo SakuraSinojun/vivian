@@ -23,7 +23,7 @@ analyser.o: src\analyser.cpp  $(HEADER)
 
 
 dice.dll: dice.o eval_r.o parse.o
-	g++ temp\dice.o temp\eval_r.o temp\parse.o -Wall -shared -o release\plugin\dice.dll
+	g++ temp\dice.o temp\eval_r.o temp\parse.o -Wall -shared -o release\plugin\dice.dll -Wl,--output-def,dice.def
 dice.o: plugin\dice\dice.cpp
 	g++ -O3 -c plugin\dice\$*.cpp -o temp\$*.o
 eval_r.o: plugin\dice\eval_r.cpp plugin\dice\eval_r.h
