@@ -148,6 +148,8 @@ bool parsemessage ( const char * message)
 			if (!flag)
 			{
 				vMsg.push_back(msg);			
+			}else{
+				delete msg.message;
 			}
 		}
 	}//end of for
